@@ -6,7 +6,9 @@
 
 <h2><u>{{ title }}</u><img src="https://pngimage.net/wp-content/uploads/2018/06/nba-basketball-png.png" height="80" width="64" /></h2>
 
-    <h4>{{ message }}</h4>
+<h4>The data was taken from <a href="https://www.kaggle.com/nathanlauga/nba-games#games_details.csv">NBA games data</a> on the site <a herf="https://www.kaggle.com/">kaggle</a>.</h4>
+
+<h4>{{ message }}</h4>
 <div>
     <table class="table table-striped">
         <thead>
@@ -111,22 +113,22 @@
     </table>
 
 </div>
-    <div class="row my-grid-borders">
-        <div class="col-md-5 my-grid-borders">
-            <form method="post">
-                {{ form1.csrf_token }}
-                <input class="btn btn-success" type="submit" name="action" value="Expand">
-            </form>
-        </div>
-        <div class="col-md-5 my-grid-borders">
-            <form method="post">
-                {{ form2.csrf_token }}
-                <input class="btn btn-danger" type="submit" name="action" value="Collapse">
-            </form>
-        </div>
+<div class="row my-grid-borders">
+    <div class="col-md-5 my-grid-borders">
+        <form method="post">
+            {{ form1.csrf_token }}
+            <input class="btn btn-success" type="submit" name="action" value="Expand">
+        </form>
     </div>
-    <div class="row my-grid-borders">
-        {{ raw_data_table | safe }}
+    <div class="col-md-5 my-grid-borders">
+        <form method="post">
+            {{ form2.csrf_token }}
+            <input class="btn btn-danger" type="submit" name="action" value="Collapse">
+        </form>
     </div>
+</div>
+<div class="row my-grid-borders">
+    {{ raw_data_table | safe }}
+</div>
 
 {% endblock %}
