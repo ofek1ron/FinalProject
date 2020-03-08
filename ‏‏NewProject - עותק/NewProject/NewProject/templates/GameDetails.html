@@ -1,0 +1,132 @@
+﻿{% extends "layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+<h2><u>{{ title }}</u><img src="https://pngimage.net/wp-content/uploads/2018/06/nba-basketball-png.png" height="80" width="64" /></h2>
+
+    <h4>{{ message }}</h4>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>TEAM_ABBREVIATION</td>
+                <td>Team's Abbreviation</td>
+            </tr>
+            <tr>
+                <td>TEAM_CITY</td>
+                <td>Team's City</td>
+            </tr>
+            <tr>
+                <td>PLAYER_NAME</td>
+                <td>Player's Name</td>
+            </tr>
+            <tr>
+                <td>MIN</td>
+                <td>Minutes Played</td>
+            </tr>
+            <tr>
+                <td>FGM</td>
+                <td>Field Goals Made</td>
+            </tr>
+            <tr>
+                <td>FGA</td>
+                <td>Field Goals Attempted</td>
+            </tr>
+            <tr>
+                <td>FG_PCT</td>
+                <td>Field Goal Percentage</td>
+            <tr>
+                <td>FG3M</td>
+                <td>Three Pointers Made</td>
+            </tr>
+            <tr>
+                <td>FG3A</td>
+                <td>Three Pointers Attempted</td>
+            </tr>
+            <tr>
+                <td>FG3_PCT</td>
+                <td>Three Point Percentage</td>
+            </tr>
+            <tr>
+                <td>FTM</td>
+                <td>Free Throws Made</td>
+            </tr>
+            <tr>
+                <td>FTA</td>
+                <td>Free Throws Attempted</td>
+            </tr>
+            <tr>
+                <td>FT_PCT</td>
+                <td>Free Throw Percentage</td>
+            </tr>
+            <tr>
+                <td>OREB</td>
+                <td>Offensive Rebounds</td>
+            </tr>
+            <tr>
+                <td>DREB</td>
+                <td>Defensive Rebounds</td>
+            </tr>
+            <tr>
+                <td>REB</td>
+                <td>Total Rebounds</td>
+            </tr>
+            <tr>
+                <td>AST</td>
+                <td>Assists</td>
+            </tr>
+            <tr>
+                <td>STL</td>
+                <td>Steal</td>
+            </tr>
+            <tr>
+                <td>BLK</td>
+                <td>Blocked shots</td>
+            </tr>
+            <tr>
+                <td>TO</td>
+                <td>Turnovers</td>
+            </tr>
+            <tr>
+                <td>PF</td>
+                <td>Personal Fouls Commited</td>
+            </tr>
+            <tr>
+                <td>PTS</td>
+                <td>Number of points scored by the player</td>
+            </tr>
+            <tr>
+                <td>PLUS_MINUS</td>
+                <td>Player's impact on the game</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+    <div class="row my-grid-borders">
+        <div class="col-md-5 my-grid-borders">
+            <form method="post">
+                {{ form1.csrf_token }}
+                <input class="btn btn-success" type="submit" name="action" value="Expand">
+            </form>
+        </div>
+        <div class="col-md-5 my-grid-borders">
+            <form method="post">
+                {{ form2.csrf_token }}
+                <input class="btn btn-danger" type="submit" name="action" value="Collapse">
+            </form>
+        </div>
+    </div>
+    <div class="row my-grid-borders">
+        {{ raw_data_table | safe }}
+    </div>
+
+{% endblock %}

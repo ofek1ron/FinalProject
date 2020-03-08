@@ -1,0 +1,61 @@
+﻿{% extends "layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+<h2><u>{{ title }}</u><img src="https://www.sportsmediawatch.com/wp-content/uploads/2018/06/nbadraftlogo.png" height="71" width="100" /></h2>
+
+<h4>{{ message }}</h4>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Team</td>
+                <td>Drafted Team</td>
+            </tr>
+            <tr>
+                <td>Player</td>
+                <td>Player Name</td>
+            </tr>
+            <tr>
+                <td>College</td>
+                <td>College</td>
+            </tr>
+            <tr>
+                <td>Year</td>
+                <td>Year Picked (Draft Class)</td>
+            </tr>
+            <tr>
+                <td>Pick</td>
+                <td>Rank Of The Pick</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="row my-grid-borders">
+    <div class="col-md-5 my-grid-borders">
+        <form method="post">
+            {{ form3.csrf_token }}
+            <input class="btn btn-success" type="submit" name="action" value="Expand">
+        </form>
+    </div>
+    <div class="col-md-5 my-grid-borders">
+        <form method="post">
+            {{ form4.csrf_token }}
+            <input class="btn btn-danger" type="submit" name="action" value="Collapse">
+        </form>
+    </div>
+</div>
+<div class="row my-grid-borders">
+    {{ raw_data_table | safe }}
+</div>
+
+{% endblock %}

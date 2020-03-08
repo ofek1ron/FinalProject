@@ -1,0 +1,6 @@
+Flask
+Pandas
+MatPlotLib
+requests
+flask_bootstrap
+Flask_wtf
