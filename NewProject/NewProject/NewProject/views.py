@@ -148,7 +148,7 @@ def Register():
             flash('Thank You, You Will Register Now :) '+ form.FirstName.data + " " + form.LastName.data )
             # Here you should put what to do (or were to go) if registration was good
         else:
-            flash('Error: User with this Username already exist! - '+ form.username.data)
+            flash('Error: aUser with this Username already exist! - '+ form.username.data)
             form = UserRegistrationFormStructure(request.form)
 
     return render_template(
