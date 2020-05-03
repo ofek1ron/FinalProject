@@ -1,11 +1,67 @@
-<!DOCTYPE html>
+﻿{% extends "layout.html" %}
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+{% block content %}
 
+<h2><u>{{ title }}</u></h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for message in messages %}
+<h3>{{ message[1] }}</h3>
+<br />
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<h4>{{ message }}</h4>
+<br />
+
+<body style="background-color: white" ;>
+    <br />
+    <br />
+    <form method=post>
+        {{ form.csrf }}
+        {{ form.csrf_token }}
+        <table>
+            <tr>
+                <td>
+                    <h3>{{ form.username.label }}</h3>
+                </td>
+                <td>
+                    <h3>{{ form.username }}</h3>
+                </td>
+                <td>
+
+
+                    {% if form.username.errors %}
+                    <ul class="text-danger">{% for error in form.username.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>  {{ form.password.label }} </h3>
+                </td>
+                <td>
+                    <h3>  {{ form.password }} </h3>
+                </td>
+                <td>
+                    {% if form.password.errors %}
+                    <ul class="text-danger">{% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="input submit">
+                        <h3> <input type="submit" value="Login"> </h3>
+                    </div>
+                <td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
 </body>
-</html>
+
+<img src="https://a.espncdn.com/photo/2018/0126/r319508_1296x729_16-9.jpg" width="533" height="300"/>
+    {% endblock %}

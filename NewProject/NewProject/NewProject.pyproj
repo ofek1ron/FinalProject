@@ -53,6 +53,7 @@
     <Folder Include="NewProject\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NewProject\static\data\games.csv" />
     <Content Include="NewProject\static\data\games_details.csv" />
     <Content Include="NewProject\static\data\NBA_Full_Draft_1947-2018.csv" />
     <Content Include="NewProject\static\data\users.csv" />
@@ -62,6 +63,7 @@
     <Content Include="NewProject\templates\GameDetails.html" />
     <Content Include="NewProject\templates\Login.html" />
     <Content Include="NewProject\templates\NBAdraft.html" />
+    <Content Include="NewProject\templates\Query.html" />
     <Content Include="NewProject\templates\Register.html" />
     <Content Include="requirements.txt" />
     <Content Include="NewProject\static\content\bootstrap.css" />

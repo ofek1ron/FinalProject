@@ -1,0 +1,37 @@
+﻿{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+
+
+    <body style="background-image: {{backgroundimg}}" ;>
+
+        <h2><u>{{ title }}</u></h2>
+        <h3>{{ message }}</h3>
+        <h5>*Some players might have played very minimal minutes in the NBA, which could cause their chart-line to be very slim.</h5>
+        <h5>**Descriptions for the different category's can be found in 'Data'-->'NBA Games Details'.</h5>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    {{ form1.csrf_token }}
+                    {{ wtf.form_field(form1.player_a)}}
+                    {{ wtf.form_field(form1.player_b)}}
+                    {{ wtf.form_field(form1.catagory)}}
+                    {{ wtf.form_field(form1.kind)}}
+                    <input class="btn btn-primary" type="submit" value="Compare">
+
+
+
+
+                </form>
+            </div>
+            <div class="col-md-8">
+
+                <img src={{ chart }} class="img-thumbnail" alt="not found">
+
+            </div>
+
+        </div>
+    </body>
+    {% endblock %}

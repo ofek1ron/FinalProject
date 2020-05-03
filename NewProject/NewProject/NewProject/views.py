@@ -7,9 +7,11 @@ from flask import render_template
 from NewProject import app
 from NewProject.models.LocalDatabaseRoutines import create_LocalDatabaseServiceRoutines
 
+from NewProject.models.Forms import NBAForm
 from NewProject.models.QueryFormStructure import QueryFormStructure 
 from NewProject.models.QueryFormStructure import LoginFormStructure 
 from NewProject.models.QueryFormStructure import UserRegistrationFormStructure
+
 
 from datetime import datetime
 from flask import render_template, redirect, request
@@ -34,6 +36,9 @@ from flask   import Flask, render_template, flash, request
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
 from wtforms import TextField, TextAreaField, SubmitField, SelectField, DateField
 from wtforms import ValidationError
+
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 from NewProject.models.Forms import ExpandForm
 from NewProject.models.Forms import CollapseForm
@@ -136,6 +141,25 @@ def GameDetails():
     	form2 = form2
 	)
 
+@app.route('/Login', methods=['GET', 'POST'])
+def Login():
+    form = LoginFormStructure(request.form)
+    if (request.method == 'POST' and form.validate()):
+        if (db_Functions.IsLoginGood(form.username.data, form.password.data)):
+            flash('Login approved!')
+            return redirect('Query')
+        else:
+            flash('Error in - Username and/or password')
+   
+    return render_template(
+        'Login.html', 
+        form=form, 
+        title='Login As Existing User',
+        message='Please enter your existing account details.',
+        year=datetime.now().year,
+        repository_name='Pandas',
+    )
+
 @app.route('/register', methods=['GET', 'POST'])
 def Register():
     form = UserRegistrationFormStructure(request.form)
@@ -153,12 +177,122 @@ def Register():
 
     return render_template(
         'register.html', 
-        form=form, 
+        form=form,
         title='Register A New User:',
-        message='Please enter your new account details below',
+        message='Please enter your new account details below.',
         year=datetime.now().year,
         repository_name='Pandas',
         )
+
+@app.route('/Query' , methods = ['GET' , 'POST'])
+def Query():
+
+    print("Query")
+
+    form1 = NBAForm()
+    chart = "https://lakersdaily.com/wp-content/uploads/2019/10/USATSI_13555447-e1572029064664.jpg"
+    height_case_1 = "100"
+    width_case_1 = "400"
+
+    df = pd.read_csv(path.join(path.dirname(__file__), 'static/data/games_details.csv'))
+
+    l = df["PLAYER_NAME"].tolist()
+    s = set(l)
+    l = list(s)
+    l.sort()
+    m = list(zip(l,l))
+    form1.player_a.choices = m
+    form1.player_b.choices = m
+
+    hl = df.columns.tolist()
+    hl.remove('GAME_ID')
+    hl.remove('TEAM_ID')
+    hl.remove('TEAM_ABBREVIATION')
+    hl.remove('TEAM_CITY')
+    hl.remove('PLAYER_ID')
+    hl.remove('PLAYER_NAME')
+    hl.remove('START_POSITION')
+    hl.remove('COMMENT')
+    g = list(zip(hl,hl))
+
+    form1.catagory.choices = g
+     
+    if request.method=='POST':
+         backgroundimg = "https://usathoopshype.files.wordpress.com/2018/12/demar_derozan_phone1.jpg?w=1000&h=701"
+         player_a = form1.player_a.data
+         player_b = form1.player_b.data
+         catagory = form1.catagory.data
+         kind = form1.kind.data
+         height_case_1 = "300"
+         width_case_1 = "750"
+
+         print(player_a)
+         print(player_b)
+         print(catagory)
+         print(kind)
+
+         df = df[(df["PLAYER_NAME"] == player_a) | (df["PLAYER_NAME"] == player_b)]
+         df = df[["PLAYER_NAME", catagory, "GAME_ID"]]
+
+         df1 = pd.read_csv(path.join(path.dirname(__file__), 'static/data/games.csv'))
+         df1 = df1[["GAME_ID", "GAME_DATE_EST"]]
+         df1 = df1.set_index('GAME_ID')
+         s = df1["GAME_DATE_EST"]
+
+  
+         d = dict(s) 
+    
+
+         df['date'] = df['GAME_ID']
+
+         df['date'] = df['date'].apply(lambda x: d.get(x))
+
+         df = df[['PLAYER_NAME', catagory, 'date']]
+
+         df2 = df.loc[df['PLAYER_NAME'] == player_a]
+
+         df3 = df.loc[df['PLAYER_NAME'] == player_b]
+
+         df2 = df2.set_index('date')
+         df3 = df3.set_index('date')
+
+         df2.index = pd.to_datetime(df2.index)
+         df3.index = pd.to_datetime(df3.index)
+
+         #df2 = df2[start_date:end_date]
+         #df3 = df3[start_date:end_date]
+
+
+
+         fig1 = plt.figure()
+         axx = fig1.add_subplot(111)
+         df2[catagory].plot(legend = True, ax = axx)
+         df3[catagory].plot(secondary_y = True, legend = True, ax = axx)
+         axx.set_ylabel(player_a)
+         axx.right_ax.set_ylabel(player_b)
+
+         chart=plt_to_img(fig1) # Turns the graph into an image
+    
+   
+    
+
+    return render_template(
+        'query.html',
+        title = 'NBA Player Comparison:',
+        message = 'Please select 2 NBA players*, then select a category** (in-game stat), then select the chart kind. When you are done please click Compare.',
+        form1 = form1,
+        chart = chart,
+        height_case_1 = height_case_1 ,
+        width_case_1 = width_case_1 
+        
+        
+        )
+def plt_to_img(fig):
+    pngImage = io.BytesIO()
+    FigureCanvas(fig).print_png(pngImage)
+    pngImageB64String = "data:image/png;base64,"
+    pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+    return pngImageB64String
 
 
 
