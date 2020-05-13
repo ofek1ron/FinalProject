@@ -1,3 +1,6 @@
+### ----------------------------------------------------------- ###
+### ----- includes all software packages that are needed ------ ###
+### ----------------------------------------------------------- ###
 from datetime import datetime
 
 from flask_wtf import FlaskForm
@@ -12,15 +15,21 @@ from wtforms.validators import DataRequired
 from wtforms.validators import InputRequired
 
 
+##   This form is where the user can set different parameters
+##   that will be used to do the data analysis (using Pandas etc.)
 class NBAForm(FlaskForm):
-    player_a = SelectField('NBA Player 1:' , validators = [DataRequired]) # Makes a new input field on the query page with a predetermined selection
+    player_a = SelectField('NBA Player 1:' , validators = [DataRequired]) # Makes a new input field on the query page with a predetermined selection.
     player_b = SelectField('NBA Player 2:' , validators = [DataRequired])
-    #start_date = DateField('Start Date' , format='%Y-%m-%d' , validators = [DataRequired]) # Makes a new input field on the query page with a limited date range to pick from, this will be our start date
-    #end_date = DateField('End Date' , format='%Y-%m-%d' , validators = [DataRequired]) # Makes a new input field on the query page with a limited date range to pick from, this will be our end date
     catagory = SelectField('Comparison Category' , validators = [DataRequired])
-    kind = SelectField('Chart Kind' , validators = [DataRequired] , choices=[('Line', 'Line'), ('Bar', 'Bar')]) # Delete this it's useless
+    kind = SelectField('Chart Kind' , validators = [DataRequired] , choices=[('Line', 'Line'), ('Bar', 'Bar')]) # The chart kind options
     subnmit = SubmitField('Display') # Sumbit button
 
+
+##   This class has the fields that the user can set, to have the query parameters for analysing the data.
+##   This form is where the user can set different parameters, that will be used to do data analysis.
+## You can see three fields:
+##   The 'submit' button - the button the user will press to have the 
+##   form be "posted" (sent to the server for process).
 class ExpandForm(FlaskForm):
     submit1 = SubmitField('Expand')
     name="Expand" 
